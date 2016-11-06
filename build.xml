@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="gbk" ?>
+
+<!--工程的名字是Main-->
+<project name="Main" default="run" basedir=".">
+
+   <!-- 定义资源，包括源文件目录，目标文件目录，和jar文件 -->
+   <property name="src" value="src"/>
+   <property name="dest" value="build"/>
+   <property name="Main_jar" value="Main.jar"/>
+
+   <!-- 定义第一个目标：初始化，新建目标文件目录 -->
+   <target name="init">
+   <mkdir dir="${dest}"/>
+   </target>
+
+
+   <!-- 定义第二个目标：编译源文件，把产品放入dest -->
+   <target name="compile" depends="init">
+   <javac srcdir="${src}" destdir="${dest}"/>
+   </target>
+
+   <!-- 定义第三个目标：构件jar文件，目标文件为Main_jar指定的文件名 -->
+   <target name="build" depends="compile">
+   <jar jarfile="${Main_jar}" basedir="${dest}"/>
+   </target>
+
+   <!-- 定义最后一个目标：运行文件 -->
+   <target name="run" depends="build">   
+   <java classname="Main" classpath="${Main_jar}"/>
+   </target>
+    
+
+    <target name="clean">  
+        <delete dir="${dest}" />  
+        <delete file="${Main_jar}"/>  
+    </target>  
+  
+    <target name="rerun" depends="clean,run">  
+        <ant target="clean" />  
+        <ant target="run" />  
+    </target>  
+
+</project>
